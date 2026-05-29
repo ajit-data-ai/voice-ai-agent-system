@@ -1,0 +1,152 @@
+{
+  "_comment": "Template: Fill this per client. All values here override .env for multi-client support.",
+
+  "clinic": {
+    "name": "Smile Perfect Dental",
+    "tagline": "Your trusted family dental practice",
+    "phone": "+12125550100",
+    "emergency_phone": "+12125550199",
+    "email": "info@smilePerfect.com",
+    "website": "www.smilepertfectdental.com",
+    "address": "123 Main Street, Suite 200, New York, NY 10001",
+    "timezone": "America/New_York"
+  },
+
+  "hours": {
+    "monday":    { "open": "09:00", "close": "17:00" },
+    "tuesday":   { "open": "09:00", "close": "17:00" },
+    "wednesday": { "open": "09:00", "close": "19:00" },
+    "thursday":  { "open": "09:00", "close": "17:00" },
+    "friday":    { "open": "09:00", "close": "15:00" },
+    "saturday":  { "open": "10:00", "close": "14:00" },
+    "sunday":    null
+  },
+
+  "holidays": [
+    "2026-01-01", "2026-07-04", "2026-11-26", "2026-12-25"
+  ],
+
+  "services": [
+    {
+      "id": "cleaning",
+      "name": "Dental Cleaning & Checkup",
+      "duration_minutes": 60,
+      "description": "Routine cleaning, x-rays, and exam",
+      "price_range": "$150-250",
+      "requires_new_patient_form": true
+    },
+    {
+      "id": "whitening",
+      "name": "Teeth Whitening",
+      "duration_minutes": 90,
+      "description": "In-office professional whitening",
+      "price_range": "$400-600",
+      "requires_new_patient_form": false
+    },
+    {
+      "id": "filling",
+      "name": "Cavity Filling",
+      "duration_minutes": 60,
+      "description": "Composite or amalgam filling",
+      "price_range": "$200-400 per tooth",
+      "requires_new_patient_form": false
+    },
+    {
+      "id": "extraction",
+      "name": "Tooth Extraction",
+      "duration_minutes": 60,
+      "description": "Simple or surgical extraction",
+      "price_range": "$200-600",
+      "requires_new_patient_form": false
+    },
+    {
+      "id": "root_canal",
+      "name": "Root Canal",
+      "duration_minutes": 90,
+      "description": "Root canal treatment",
+      "price_range": "$700-1500",
+      "requires_new_patient_form": false
+    },
+    {
+      "id": "emergency",
+      "name": "Emergency Visit",
+      "duration_minutes": 60,
+      "description": "Pain, broken tooth, or urgent dental issue",
+      "price_range": "$100-300 exam fee",
+      "priority": "high",
+      "same_day_available": true
+    },
+    {
+      "id": "consultation",
+      "name": "New Patient Consultation",
+      "duration_minutes": 60,
+      "description": "Full exam, x-rays, and treatment plan",
+      "price_range": "$0-150",
+      "requires_new_patient_form": true,
+      "is_new_patient": true
+    }
+  ],
+
+  "doctors": [
+    {
+      "id": "dr_smith",
+      "name": "Dr. Sarah Smith",
+      "title": "DDS",
+      "speciality": "General & Cosmetic Dentistry",
+      "calendar_id": "dr.smith@smilePerfect.com",
+      "accepting_new_patients": true
+    },
+    {
+      "id": "dr_jones",
+      "name": "Dr. Michael Jones",
+      "title": "DMD",
+      "speciality": "Oral Surgery & Extractions",
+      "calendar_id": "dr.jones@smilePerfect.com",
+      "accepting_new_patients": true
+    }
+  ],
+
+  "insurance": {
+    "accepted": ["Delta Dental", "Cigna", "Aetna", "BlueCross", "MetLife", "Guardian", "United Healthcare"],
+    "not_accepted": ["Medicaid", "Medicare"],
+    "verify_note": "We recommend calling your insurance to verify coverage before your appointment."
+  },
+
+  "booking": {
+    "min_advance_hours": 2,
+    "max_advance_days": 90,
+    "slot_interval_minutes": 30,
+    "buffer_between_appointments_minutes": 15,
+    "max_same_day_bookings": 3,
+    "require_phone_for_booking": true,
+    "send_sms_confirmation": true,
+    "send_email_confirmation": true,
+    "reminder_hours_before": [24, 2]
+  },
+
+  "escalation": {
+    "transfer_triggers": [
+      "dental emergency",
+      "severe pain",
+      "broken tooth",
+      "knocked out tooth",
+      "bleeding",
+      "speak to a human",
+      "speak to someone",
+      "talk to the doctor",
+      "complaint",
+      "billing dispute",
+      "medical question"
+    ],
+    "after_hours_message": "Our office is currently closed. If this is a dental emergency, please call our emergency line at {emergency_phone}. Otherwise, please call back during business hours or leave a message and we will call you back.",
+    "voicemail_enabled": true
+  },
+
+  "agent_personality": {
+    "name": "Sophie",
+    "tone": "warm, professional, empathetic",
+    "language": "en-US",
+    "speaking_pace": "medium",
+    "filler_words": false
+  }
+}

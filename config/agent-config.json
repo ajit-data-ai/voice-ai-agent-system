@@ -1,0 +1,239 @@
+{
+  "_comment": "Retell AI agent configuration. Upload via Retell dashboard or API.",
+
+  "agent_name": "Sophie - Dental Receptionist",
+  "voice_id": "11labs-Adrian",
+  "voice_speed": 1.0,
+  "voice_temperature": 0.7,
+
+  "llm_websocket_url": "wss://your-server.com/llm-websocket",
+  "llm_model": "gpt-4o-mini",
+  "llm_temperature": 0.3,
+
+  "begin_message": "Thank you for calling {{CLINIC_NAME}}, this is Sophie! How can I help you today?",
+
+  "general_prompt": "See agents/dental/system-prompt.txt",
+
+  "responsiveness": 1.0,
+  "interruption_sensitivity": 0.8,
+  "enable_backchannel": true,
+  "backchannel_frequency": 0.8,
+  "backchannel_words": ["mhm", "I see", "of course", "absolutely", "got it"],
+
+  "end_call_after_silence_ms": 8000,
+  "max_call_duration_ms": 1800000,
+
+  "ambient_sound": "off",
+  "normalize_latency": true,
+
+  "reminder_trigger_ms": 10000,
+  "reminder_max_count": 2,
+  "reminder_message": "I'm still here — just pulling that up for you. One moment...",
+
+  "post_call_analysis_data": [
+    {
+      "name": "call_outcome",
+      "description": "What was the final outcome of this call?",
+      "type": "enum",
+      "choices": ["appointment_booked", "appointment_rescheduled", "appointment_cancelled", "question_answered", "transferred_to_staff", "emergency_handled", "voicemail_left", "no_action", "spam"]
+    },
+    {
+      "name": "patient_type",
+      "description": "Was this a new or returning patient?",
+      "type": "enum",
+      "choices": ["new", "returning", "unknown"]
+    },
+    {
+      "name": "service_requested",
+      "description": "What service did the patient call about?",
+      "type": "string"
+    },
+    {
+      "name": "appointment_date",
+      "description": "Date of the appointment if booked (YYYY-MM-DD)",
+      "type": "string"
+    },
+    {
+      "name": "patient_name",
+      "description": "Full name of the patient",
+      "type": "string"
+    },
+    {
+      "name": "patient_phone",
+      "description": "Patient phone number",
+      "type": "string"
+    },
+    {
+      "name": "caller_sentiment",
+      "description": "Overall sentiment of the caller",
+      "type": "enum",
+      "choices": ["positive", "neutral", "negative", "distressed"]
+    },
+    {
+      "name": "was_emergency",
+      "description": "Was this a dental emergency?",
+      "type": "boolean"
+    },
+    {
+      "name": "transfer_reason",
+      "description": "If transferred, why?",
+      "type": "string"
+    },
+    {
+      "name": "unhandled_request",
+      "description": "Was there anything the agent could not handle? Describe it.",
+      "type": "string"
+    }
+  ],
+
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "check_availability",
+        "description": "Check available appointment slots for a given date/time range and service type. Call this BEFORE confirming any appointment time with the patient.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "requested_date": {
+              "type": "string",
+              "description": "The date the patient wants, in YYYY-MM-DD format. Use 'today' or 'tomorrow' if patient says that."
+            },
+            "requested_time": {
+              "type": "string",
+              "description": "The time the patient wants, in HH:MM 24h format. Use null if patient has no preference."
+            },
+            "service_id": {
+              "type": "string",
+              "description": "The service identifier from the services list (e.g. 'cleaning', 'emergency', 'whitening')"
+            },
+            "doctor_id": {
+              "type": "string",
+              "description": "Specific doctor ID if patient requested one. Use null for any available doctor."
+            },
+            "same_day_only": {
+              "type": "boolean",
+              "description": "Set to true if this is an emergency requiring same-day availability."
+            }
+          },
+          "required": ["service_id"]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "book_appointment",
+        "description": "Book a confirmed appointment. Only call this AFTER the patient has verbally confirmed ALL details (name, phone, date, time, service).",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "patient_name": { "type": "string" },
+            "patient_phone": { "type": "string", "description": "10-digit US phone number" },
+            "patient_email": { "type": "string", "description": "Optional email for confirmation" },
+            "service_id": { "type": "string" },
+            "appointment_date": { "type": "string", "description": "YYYY-MM-DD" },
+            "appointment_time": { "type": "string", "description": "HH:MM 24h format" },
+            "doctor_id": { "type": "string", "description": "Specific doctor or null for any" },
+            "is_new_patient": { "type": "boolean" },
+            "notes": { "type": "string", "description": "Any special notes from the call" },
+            "insurance": { "type": "string", "description": "Insurance provider if mentioned" }
+          },
+          "required": ["patient_name", "patient_phone", "service_id", "appointment_date", "appointment_time"]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "get_appointment",
+        "description": "Look up an existing appointment by patient name and/or phone number.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "patient_name": { "type": "string" },
+            "patient_phone": { "type": "string" },
+            "approximate_date": { "type": "string", "description": "YYYY-MM-DD if they remember roughly when" }
+          },
+          "required": []
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "reschedule_appointment",
+        "description": "Reschedule an existing appointment to a new date/time.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "appointment_id": { "type": "string" },
+            "new_date": { "type": "string", "description": "YYYY-MM-DD" },
+            "new_time": { "type": "string", "description": "HH:MM 24h format" },
+            "reason": { "type": "string", "description": "Why patient is rescheduling" }
+          },
+          "required": ["appointment_id", "new_date", "new_time"]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "cancel_appointment",
+        "description": "Cancel an existing appointment.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "appointment_id": { "type": "string" },
+            "reason": { "type": "string" },
+            "patient_confirmed": { "type": "boolean", "description": "Did the patient explicitly confirm cancellation?" }
+          },
+          "required": ["appointment_id", "patient_confirmed"]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "transfer_to_staff",
+        "description": "Transfer the call to a human staff member. Use for emergencies, complaints, human requests, billing questions, or anything the agent cannot handle.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "reason": {
+              "type": "string",
+              "enum": ["dental_emergency", "caller_requested_human", "complaint", "billing_question", "medical_question", "language_barrier", "agent_cannot_handle", "other"]
+            },
+            "urgency": {
+              "type": "string",
+              "enum": ["low", "normal", "high", "critical"],
+              "description": "Use 'critical' for bleeding/pain 8+/knocked-out tooth"
+            },
+            "caller_name": { "type": "string" },
+            "caller_phone": { "type": "string" },
+            "summary": { "type": "string", "description": "Brief summary of the call so staff knows what to expect" }
+          },
+          "required": ["reason", "urgency"]
+        }
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "log_callback_request",
+        "description": "Log a callback request for after-hours callers or when staff transfer is unavailable.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "caller_name": { "type": "string" },
+            "caller_phone": { "type": "string" },
+            "reason": { "type": "string" },
+            "urgency": { "type": "string", "enum": ["low", "normal", "high"] },
+            "preferred_callback_time": { "type": "string" }
+          },
+          "required": ["caller_phone", "reason"]
+        }
+      }
+    }
+  ]
+}

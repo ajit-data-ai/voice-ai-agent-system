@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.production
+
+# Logs
+logs/
+*.log
+
+# Runtime
+*.pid
+*.seed
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Client configs (contain sensitive clinic data)
+config/clients/
+
+# Google OAuth tokens (sensitive)
+token.json
+credentials.json
