@@ -330,9 +330,9 @@ voice-ai-agent-system/
 ├── scripts/
 │   └── google-auth-setup.js     ← One-time OAuth token setup
 └── docs/
-    ├── EDGE-CASES.md            ← 50+ edge cases documented
-    ├── DEPLOYMENT.md            ← Local → production guide
-    └── CLIENT-ONBOARDING.md     ← Per-client SOP + monthly maintenance
+    ├── ARCHITECTURE.md          ← System architecture, sequence diagrams, reliability patterns
+    ├── DEPLOYMENT.md            ← Local → production deployment guide
+    └── EDGE-CASES.md            ← 50+ edge cases documented
 ```
 
 ---
@@ -346,9 +346,7 @@ Each client gets their own isolated instance:
 - Customized prompt (name, hours, services, doctors, policies)
 - Staff notification routing
 
-**Setup time per new client: 2–4 hours**
-
-See [`docs/CLIENT-ONBOARDING.md`](docs/CLIENT-ONBOARDING.md) for the complete SOP.
+**Setup time per new client: 2–4 hours** — covered by a one-time setup fee.
 
 ---
 
@@ -366,28 +364,21 @@ No client goes live until all 24 scenarios pass.
 
 ## 💼 For Hiring Clients
 
-I build, deploy, and maintain custom AI voice agents for service businesses.
+I build, deploy, and maintain custom AI voice agents for service businesses — typically dental clinics, real estate agencies, home services, medical practices, and law firms.
 
-**Typical engagement:**
-
-| Tier | Setup Fee | Monthly | Includes |
-|------|-----------|---------|----------|
-| 🌱 **Starter** | $497 one-time | $297/mo | 1 agent, 300 min/mo, calendar + basic FAQ |
-| 🚀 **Growth** | $997 one-time | $497/mo | 1 agent, 600 min/mo, CRM + calendar + SMS |
-| 💎 **Pro** | $1,497 one-time | $797/mo | 2 agents, 1,500 min/mo, multi-channel + n8n automation |
-| 🏢 **Enterprise** | Custom | Custom | Custom agents, SLA, dedicated support |
-
-**Every engagement includes:**
+**A typical engagement includes:**
 - ✅ Custom-trained agent for your business (services, hours, providers, policies)
 - ✅ Local phone number
 - ✅ Direct Google Calendar / Calendly / Jane App integration
-- ✅ SMS confirmations + reminders
-- ✅ Monthly performance report
+- ✅ SMS confirmations + appointment reminders
+- ✅ Monthly performance report + ongoing prompt optimization
+- ✅ Staff escalation routing for emergencies + complex cases
 - ✅ Unlimited prompt updates as your business changes
+- ✅ Production monitoring + uptime SLA
 
-**🎁 Free 14-day pilot** for qualifying service businesses (dental, real estate, home services, medical, legal).
+**🎁 Free 14-day pilot** available for qualifying service businesses — call the [live demo](#-live-demo) first, then book a discovery call.
 
-📧 **Get in touch:** [your-email@domain.com](mailto:your-email@domain.com) · 💼 [Upwork](#) · 🔗 [LinkedIn](#)
+📧 **Discuss your project:** [your-email@domain.com](mailto:your-email@domain.com) · 💼 [Upwork](#) · 🔗 [LinkedIn](#)
 
 ---
 

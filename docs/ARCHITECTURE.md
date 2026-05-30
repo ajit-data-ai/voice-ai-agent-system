@@ -290,4 +290,3 @@ Use Railway/Render's per-service isolation. Slightly higher cost (~$5/mo per cli
 
 - [DEPLOYMENT.md](DEPLOYMENT.md) — How to deploy this to production
 - [EDGE-CASES.md](EDGE-CASES.md) — 50+ edge cases with handling strategy
-- [CLIENT-ONBOARDING.md](CLIENT-ONBOARDING.md) — Per-client setup SOP
