@@ -17,9 +17,27 @@
 
 <br/>
 
-[Features](#-features) • [Architecture](#-architecture) • [Verticals](#-supported-verticals) • [Edge Cases](#-edge-cases-handled) • [Setup](#-quick-start) • [Results](#-real-world-results)
+[📞 Live Demo](#-live-demo) • [🎥 Watch It Work](#-watch-it-work) • [Features](#-features) • [Architecture](#-architecture) • [Verticals](#-supported-verticals) • [Edge Cases](#-edge-cases-handled) • [Setup](#-quick-start) • [Hire Me](#-for-hiring-clients)
 
 </div>
+
+---
+
+## 📞 Live Demo
+
+> 🟢 **Call the demo right now:** **`+1 (XXX) XXX-XXXX`**
+>
+> Tell Sophie you'd like to book a **teeth cleaning**. She'll check the calendar live, offer real time slots, confirm your details, book the appointment, and text you confirmation — all in under 90 seconds.
+>
+> *Demo agent runs 24/7. You'll receive a real SMS. No real appointment is booked at any actual clinic.*
+
+---
+
+## 🎥 Watch It Work
+
+[![▶ Watch the 90-second demo](https://img.shields.io/badge/▶_Watch_the_90s_Demo-Click_to_Play-red?style=for-the-badge)](https://youtube.com/watch?v=YOUR_VIDEO_ID)
+
+*Live phone call → real-time appointment booking → calendar updated → SMS confirmation, end to end.*
 
 ---
 
@@ -72,6 +90,59 @@ Every call is automatically analyzed for:
 ---
 
 ## 🏗️ Architecture
+
+### System Overview
+
+```mermaid
+graph LR
+    A[📱 Caller dials<br/>Twilio Number] --> B[🎙️ Retell AI<br/>STT + LLM + TTS]
+    B -->|Function Calls| C[⚙️ Express Webhook<br/>Signature verified]
+    C --> D{Router}
+    D -->|check_availability<br/>book_appointment| E[📅 Google Calendar API]
+    D -->|transfer_to_staff| F[📞 Twilio Voice<br/>Transfer]
+    D -->|emergency| G[🚨 Staff SMS Alert]
+    E --> H[📲 Twilio SMS<br/>Confirmation]
+    E --> I[📧 Email Backup]
+
+    style A fill:#4F46E5,color:#fff
+    style B fill:#7C3AED,color:#fff
+    style C fill:#059669,color:#fff
+    style E fill:#4285F4,color:#fff
+    style F fill:#F22F46,color:#fff
+    style G fill:#DC2626,color:#fff
+    style H fill:#F22F46,color:#fff
+```
+
+### Conversation Flow
+
+```mermaid
+stateDiagram-v2
+    [*] --> Greeting
+    Greeting --> IntentDetection: Caller speaks
+    IntentDetection --> Booking: "Book appointment"
+    IntentDetection --> Reschedule: "Change appointment"
+    IntentDetection --> Cancel: "Cancel"
+    IntentDetection --> FAQ: "Question"
+    IntentDetection --> Emergency: "Pain / urgent"
+    IntentDetection --> Transfer: "Speak to human"
+
+    Booking --> CollectInfo
+    CollectInfo --> CheckCalendar
+    CheckCalendar --> OfferSlots: Available
+    CheckCalendar --> Alternatives: Full
+    OfferSlots --> ConfirmDetails
+    ConfirmDetails --> BookSlot
+    BookSlot --> SendSMS
+    SendSMS --> [*]
+
+    Emergency --> AssessUrgency
+    AssessUrgency --> SameDayBook: Pain < 7
+    AssessUrgency --> TransferUrgent: Pain ≥ 7
+    TransferUrgent --> StaffAlert
+    StaffAlert --> [*]
+```
+
+### Layered Architecture
 
 ```
                     ┌─────────────────────────────────────┐
@@ -208,7 +279,7 @@ Every call is automatically analyzed for:
 
 ```bash
 # 1. Clone
-git clone https://github.com/ajit4518/voice-ai-agent-system.git
+git clone https://github.com/ajit-data-ai/voice-ai-agent-system.git
 cd voice-ai-agent-system
 
 # 2. Install
@@ -293,9 +364,36 @@ No client goes live until all 24 scenarios pass.
 
 ---
 
+## 💼 For Hiring Clients
+
+I build, deploy, and maintain custom AI voice agents for service businesses.
+
+**Typical engagement:**
+
+| Tier | Setup Fee | Monthly | Includes |
+|------|-----------|---------|----------|
+| 🌱 **Starter** | $497 one-time | $297/mo | 1 agent, 300 min/mo, calendar + basic FAQ |
+| 🚀 **Growth** | $997 one-time | $497/mo | 1 agent, 600 min/mo, CRM + calendar + SMS |
+| 💎 **Pro** | $1,497 one-time | $797/mo | 2 agents, 1,500 min/mo, multi-channel + n8n automation |
+| 🏢 **Enterprise** | Custom | Custom | Custom agents, SLA, dedicated support |
+
+**Every engagement includes:**
+- ✅ Custom-trained agent for your business (services, hours, providers, policies)
+- ✅ Local phone number
+- ✅ Direct Google Calendar / Calendly / Jane App integration
+- ✅ SMS confirmations + reminders
+- ✅ Monthly performance report
+- ✅ Unlimited prompt updates as your business changes
+
+**🎁 Free 14-day pilot** for qualifying service businesses (dental, real estate, home services, medical, legal).
+
+📧 **Get in touch:** [your-email@domain.com](mailto:your-email@domain.com) · 💼 [Upwork](#) · 🔗 [LinkedIn](#)
+
+---
+
 ## 📄 License
 
-MIT © [Ajit](https://github.com/ajit4518)
+MIT © [Ajit](https://github.com/ajit-data-ai)
 
 ---
 
@@ -303,6 +401,6 @@ MIT © [Ajit](https://github.com/ajit4518)
 
 **Built for deployment. Tested on real calls. Ready for your business.**
 
-[⭐ Star this repo](https://github.com/ajit4518/voice-ai-agent-system) • [🐛 Report an Issue](https://github.com/ajit4518/voice-ai-agent-system/issues)
+[⭐ Star this repo](https://github.com/ajit-data-ai/voice-ai-agent-system) • [🐛 Report an Issue](https://github.com/ajit-data-ai/voice-ai-agent-system/issues)
 
 </div>
